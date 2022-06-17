@@ -1,0 +1,59 @@
+{
+  "name": "e-commerce-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+ 
+  "scripts": {
+    "build": "better-npm-run build",
+    "start": "better-npm-run production",
+    "dev": "better-npm-run development",
+    "test": "better-npm-run test"
+  },
+  "betterScripts": {
+    "development": {
+      "command": "nodemon --exec ts-node src/app.ts"
+    },
+    "production": {
+      "command": "tsc && node dist/app.js"
+    },
+    "test": {
+      "command": "tsc && node dist/app.js"
+    },
+    "build": {
+      "command": "tsc"
+    },
+    "rover": {
+      "command": "npx -p @apollo/rover rover <parameters>"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "apollo-server": "^3.3.0",
+    "@prisma/client": "^3.15.1",
+    "@sendgrid/mail": "^7.7.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "apollo-server-express": "^3.8.2",
+    "bcrypt": "^5.0.1",
+    "better-npm-run": "^0.1.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "graphql": "^16.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@apollo/rover": "^0.7.0",
+    "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^17.0.43",
+    "nodemon": "^2.0.16",
+    "prisma": "^3.15.1",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
+  }
+}
