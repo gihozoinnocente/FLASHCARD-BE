@@ -1,12 +1,11 @@
-import { users, cards } from '../db';
+import { cards } from '../db';
+import { User } from '../../models/User'
+import { createUser } from '../../services/user.services';
+
 
 export const Mutation ={
-    createUser:(parent:any, args:any, context:any) => {
-        const user = args.input
-        const lastId = users[users.length -1].id
-        user.id= lastId + 1
-        users.push(user)
-        return user  
+    createUser:async(parent:any, args:any, context:any) :Promise<User>=> {
+       return await createUser(args.input)
     },
 
     createCard :(parent:any, args:any, context:any) => {

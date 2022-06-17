@@ -5,6 +5,8 @@ export const cardTypeDefs =gql`
     id:ID!
     title:String!
     description:String!
+    user:User!
+    userId: Int!
  }
 
  input createCardInput{

@@ -1,8 +1,11 @@
-import { users } from '../db'
+import { findAllUser } from '../../services/user.services';
+import { User } from '../../models/User'
 import { cards } from '../db'
 
 export const Query = {
-    users: (parent: any, args: any, context: any) => users,
+    users: async(parent: any, args: any, context: any):Promise<User[]> => {
+      return await findAllUser()
+    },
     cards: (parent: any, args: any, context: any) => cards,
   };
 

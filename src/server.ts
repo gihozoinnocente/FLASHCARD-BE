@@ -8,25 +8,11 @@ const startApolloServer = (): void=>{
     new ApolloServer({
         typeDefs,
         resolvers,
-        // context: async ({ req }) => {
-        //     let authToken = null
-        //     let currentUser = null
-        
-        //     try {
-        //       authToken = req.headers[HEADER_NAME]
-        
-        //       if (authToken) {
-        //         currentUser = await tradeTokenForUser(authToken)
-        //       }
-        //     } catch (e) {
-        //       console.warn(`Unable to authenticate using auth token: ${authToken}`)
-        //     }
-        
-        //     return {
-        //       authToken,
-        //       currentUser
-        //     }
-          // }
+        context: ({req}: any) => {
+          const token: string = req.headers.authorization || ''
+          return {token: token}
+        }
+       
     }).listen().then(({ url }) => {
         console.log("Server is up at " + url);
       });
