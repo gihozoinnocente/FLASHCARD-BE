@@ -4,3 +4,8 @@ type Query{
     users:[User!]
 }
 `
+export const cardqueryTypeDefs =gql`
+type Query{
+    cards:[Card!]
+}
+`

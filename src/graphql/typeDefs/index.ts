@@ -1,5 +1,6 @@
 import { userTypeDefs } from './user';
-import { queryTypeDefs } from './query';
+import { cardTypeDefs} from './card';
+import { queryTypeDefs, cardqueryTypeDefs } from './query';
 import { mutationTypeDefs } from './mutation';
 
-export const typeDefs = [userTypeDefs, queryTypeDefs,mutationTypeDefs];
+export const typeDefs = [userTypeDefs, queryTypeDefs,mutationTypeDefs,cardTypeDefs, cardqueryTypeDefs];
