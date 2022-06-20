@@ -14,8 +14,8 @@ model Flashcard {
   createdAt   DateTime @default(now())
   description String
   url         String
-  postedBy    User?    @relation(name: "foobar", fields: [postedById], references: [id])
-  postedById  Int?
+  postedBy    User    @relation(fields: [postedById], references: [id])
+  postedById  Int
 }
 
 model User {
@@ -23,5 +23,5 @@ model User {
   name     String
   email    String @unique
   password String
-  flashcards    Flashcard[] @relation(name: "foobar")
+  flashcards    Flashcard[] 
 }

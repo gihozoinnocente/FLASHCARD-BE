@@ -54,6 +54,41 @@ export const Sort = enumType({
 });
 
 
+export const FlashcardQuery = extendType({
+  type:"Query",
+  definition(t){
+     // get flashcard by id
+     t.nonNull.field('getFlashcard', {
+      type: 'Flashcard',
+      args: {
+        id: nonNull(intArg()),
+      },
+      async resolve(parent:any, args:any, context:any) {
+        const { userId} =context;
+        
+        if(!userId){
+          throw new Error("Please log in to perform the action");
+          
+        }
+        const cardOfRelatedUser =await context.prisma.flashcard.findUnique({
+          where: {
+            id: args.id,
+          },
+        });
+        if(cardOfRelatedUser.postedById === userId){
+          return cardOfRelatedUser
+        } else {
+          throw new Error("Flashcard doesn't belong to you");
+          
+        }
+      },
+    });
+  }
+})
+  
+
+
+
 
 export const FlashcardMutation = extendType({
     type: "Mutation",
@@ -84,21 +119,7 @@ export const FlashcardMutation = extendType({
             },
         });
 
-
-      // get flashcard by id
-      t.field('getFlashcard', {
-        type: 'Flashcard',
-        args: {
-          id: nonNull(intArg()),
-        },
-        resolve(parent:any, args:any, context:any) {
-          return context.prisma.flashcard.findUnique({
-            where: {
-              id: args.id,
-            },
-          });
-        },
-      });
+   
   
       // update flashcard by id
       t.field('updateFlashcard', {
