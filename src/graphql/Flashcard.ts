@@ -26,14 +26,7 @@ export const Flashcard = objectType({
                     .postedBy();
             },
         });
-        // t.nonNull.list.nonNull.field("commenters", {
-        //     type: "User",
-        //     resolve(parent, args, context) {
-        //         return context.prisma.flashcard
-        //             .findUnique({ where: { id: parent.id } })
-        //             .commenters();
-        //     },
-        // });
+       
     },
 });
 
