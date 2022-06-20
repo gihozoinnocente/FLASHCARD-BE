@@ -26,27 +26,17 @@ type Flashcard {
   url: String!
 }
 
-input LinkOrderByInput {
-  createdAt: Sort
-  description: Sort
-  url: Sort
-}
-
 type Mutation {
   deleteFlashcard(id: Int!): Flashcard
   login(email: String!, password: String!): AuthPayload!
   post(description: String!, url: String!): Flashcard!
   signup(email: String!, name: String!, password: String!): AuthPayload!
-  updateFlashcard(description: String!, id: Int!, url: String!): Flashcard
+  updateFlashcard(description: String, id: Int, url: String): Flashcard
 }
 
 type Query {
-  getFlashcard(id: Int!): Flashcard!
-}
-
-enum Sort {
-  asc
-  desc
+  getAllFlashcard: [Flashcard!]!
+  getOneFlashcard(id: Int!): Flashcard!
 }
 
 type User {

@@ -6,7 +6,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 export const server = new ApolloServer({
     schema,
     context,
-    // introspection:true,
+    introspection:true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
 });
 

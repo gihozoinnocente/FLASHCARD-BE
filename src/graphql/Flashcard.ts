@@ -8,6 +8,7 @@ import {
     enumType,
     arg,
     list,
+    nullable,
 } from "nexus";
 import { Prisma } from "@prisma/client";
 
@@ -39,26 +40,12 @@ export const Feed = objectType({
     },
 });
 
-export const LinkOrderByInput = inputObjectType({
-    name: "LinkOrderByInput",
-    definition(t) {
-        t.field("description", { type: Sort });
-        t.field("url", { type: Sort });
-        t.field("createdAt", { type: Sort });
-    },
-});
-
-export const Sort = enumType({
-    name: "Sort",
-    members: ["asc", "desc"],
-});
-
 
 export const FlashcardQuery = extendType({
   type:"Query",
   definition(t){
      // get flashcard by id
-     t.nonNull.field('getFlashcard', {
+     t.nonNull.field('getOneFlashcard', {
       type: 'Flashcard',
       args: {
         id: nonNull(intArg()),
@@ -83,13 +70,29 @@ export const FlashcardQuery = extendType({
         }
       },
     });
+
+    //get all flashcards
+    t.nonNull.list.nonNull.field('getAllFlashcard', {
+      type: 'Flashcard',
+  
+      async resolve(parent:any, args:any, context:any) {
+        const { userId } =context
+        if(!userId){
+          throw new Error("Please Login to get all the card");
+          
+        }
+        const getAllFlashcard= await context.prisma.flashcard.findMany({
+          where:{
+            postedById: userId
+          }
+        });
+        return getAllFlashcard;
+      },
+    });
+
   }
 })
   
-
-
-
-
 export const FlashcardMutation = extendType({
     type: "Mutation",
     definition(t) {
@@ -99,7 +102,7 @@ export const FlashcardMutation = extendType({
                 description: nonNull(stringArg()),
                 url: nonNull(stringArg()),
             },
-            resolve(parent:any, args:any, context:any) {
+            async resolve(parent:any, args:any, context:any) {
                 const { description, url } = args;
                 const { userId } = context;
 
@@ -107,7 +110,7 @@ export const FlashcardMutation = extendType({
                     throw new Error("Cannot post without logging in.");
                 }
 
-                const newFlashcard = context.prisma.flashcard.create({
+                const newFlashcard = await context.prisma.flashcard.create({
                     data: {
                         description,
                         url,
@@ -125,12 +128,19 @@ export const FlashcardMutation = extendType({
       t.field('updateFlashcard', {
         type: 'Flashcard',
         args: {
-          id: nonNull(intArg()),
-          description: nonNull(stringArg()),
-          url: nonNull(stringArg()),
+          id: nullable(intArg()),
+          description: nullable(stringArg()),
+          url: nullable(stringArg()),
         },
-        resolve(parent:any, args:any, context:any) {
-          return context.prisma.flashcard.update({
+        async resolve(parent:any, args:any, context:any) {
+
+        const { userId} =context;
+        
+        if(!userId){
+          throw new Error("Please log in to perform the action");
+          
+        }
+        const updatedFlashcard =await context.prisma.flashcard.update({
             where: {
               id: args.id,
             },
@@ -139,6 +149,12 @@ export const FlashcardMutation = extendType({
               url: args.url,
             },
           });
+          if(updatedFlashcard.postedById === userId){
+            return updatedFlashcard
+          } else{
+            throw new Error("You are trying to update a card which doesn't belong to you");
+            
+          }
         },
       });
   
@@ -148,13 +164,25 @@ export const FlashcardMutation = extendType({
         args: {
           id: nonNull(intArg()),
         },
-        resolve(parent:any, args:any, context:any) {
-          const del= context.prisma.flashcard.delete({
+        async resolve(parent:any, args:any, context:any) {
+          const { userId} =context;
+        
+          if(!userId){
+            throw new Error("Please log in to perform the action");
+            
+          }
+          const del=await context.prisma.flashcard.delete({
             where: {
               id: args.id,
             },
           });
-        return(del)
+          if(del.postedById === userId){
+            return(del)
+          } else{
+            throw new Error("You cannot delete a card which doesn't belong to you");
+            
+          }
+       
         },
       });
     },

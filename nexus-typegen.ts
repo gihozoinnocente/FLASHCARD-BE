@@ -29,15 +29,9 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  LinkOrderByInput: { // input type
-    createdAt?: NexusGenEnums['Sort'] | null; // Sort
-    description?: NexusGenEnums['Sort'] | null; // Sort
-    url?: NexusGenEnums['Sort'] | null; // Sort
-  }
 }
 
 export interface NexusGenEnums {
-  Sort: "asc" | "desc"
 }
 
 export interface NexusGenScalars {
@@ -82,7 +76,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   AuthPayload: { // field return type
@@ -109,7 +103,8 @@ export interface NexusGenFieldTypes {
     updateFlashcard: NexusGenRootTypes['Flashcard'] | null; // Flashcard
   }
   Query: { // field return type
-    getFlashcard: NexusGenRootTypes['Flashcard']; // Flashcard!
+    getAllFlashcard: NexusGenRootTypes['Flashcard'][]; // [Flashcard!]!
+    getOneFlashcard: NexusGenRootTypes['Flashcard']; // Flashcard!
   }
   User: { // field return type
     email: string; // String!
@@ -144,7 +139,8 @@ export interface NexusGenFieldTypeNames {
     updateFlashcard: 'Flashcard'
   }
   Query: { // field return type name
-    getFlashcard: 'Flashcard'
+    getAllFlashcard: 'Flashcard'
+    getOneFlashcard: 'Flashcard'
   }
   User: { // field return type name
     email: 'String'
@@ -173,13 +169,13 @@ export interface NexusGenArgTypes {
       password: string; // String!
     }
     updateFlashcard: { // args
-      description: string; // String!
-      id: number; // Int!
-      url: string; // String!
+      description?: string | null; // String
+      id?: number | null; // Int
+      url?: string | null; // String
     }
   }
   Query: {
-    getFlashcard: { // args
+    getOneFlashcard: { // args
       id: number; // Int!
     }
   }
@@ -193,9 +189,9 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = keyof NexusGenInputs;
+export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = keyof NexusGenEnums;
+export type NexusGenEnumNames = never;
 
 export type NexusGenInterfaceNames = never;
 
