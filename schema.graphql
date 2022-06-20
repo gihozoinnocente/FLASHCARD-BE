@@ -33,9 +33,12 @@ input LinkOrderByInput {
 }
 
 type Mutation {
+  deleteFlashcard(id: Int!): Flashcard
+  getFlashcard(id: Int!): Flashcard
   login(email: String!, password: String!): AuthPayload!
   post(description: String!, url: String!): Flashcard!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  updateFlashcard(description: String!, id: Int!, url: String!): Flashcard
 }
 
 type Query {
@@ -48,7 +51,6 @@ enum Sort {
 }
 
 type User {
-  comments: [Flashcard!]!
   email: String!
   flashcards: [Flashcard!]!
   id: Int!

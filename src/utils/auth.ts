@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
 
-export const APP_SECRET = "GraphQL-is-aw3some";
+export const APP_SECRET = "GraphQL-STUDY";
 
 export interface AuthTokenPayload {
     userId: number;

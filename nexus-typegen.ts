@@ -102,15 +102,17 @@ export interface NexusGenFieldTypes {
     url: string; // String!
   }
   Mutation: { // field return type
+    deleteFlashcard: NexusGenRootTypes['Flashcard'] | null; // Flashcard
+    getFlashcard: NexusGenRootTypes['Flashcard'] | null; // Flashcard
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     post: NexusGenRootTypes['Flashcard']; // Flashcard!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    updateFlashcard: NexusGenRootTypes['Flashcard'] | null; // Flashcard
   }
   Query: { // field return type
     ok: boolean; // Boolean!
   }
   User: { // field return type
-    comments: NexusGenRootTypes['Flashcard'][]; // [Flashcard!]!
     email: string; // String!
     flashcards: NexusGenRootTypes['Flashcard'][]; // [Flashcard!]!
     id: number; // Int!
@@ -136,15 +138,17 @@ export interface NexusGenFieldTypeNames {
     url: 'String'
   }
   Mutation: { // field return type name
+    deleteFlashcard: 'Flashcard'
+    getFlashcard: 'Flashcard'
     login: 'AuthPayload'
     post: 'Flashcard'
     signup: 'AuthPayload'
+    updateFlashcard: 'Flashcard'
   }
   Query: { // field return type name
     ok: 'Boolean'
   }
   User: { // field return type name
-    comments: 'Flashcard'
     email: 'String'
     flashcards: 'Flashcard'
     id: 'Int'
@@ -154,6 +158,12 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    deleteFlashcard: { // args
+      id: number; // Int!
+    }
+    getFlashcard: { // args
+      id: number; // Int!
+    }
     login: { // args
       email: string; // String!
       password: string; // String!
@@ -166,6 +176,11 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+    updateFlashcard: { // args
+      description: string; // String!
+      id: number; // Int!
+      url: string; // String!
     }
   }
 }

@@ -60,47 +60,7 @@ export const Sort = enumType({
     members: ["asc", "desc"],
 });
 
-// export const LinkQuery = extendType({
-//     type: "Query",
-//     definition(t) {
-//         t.nonNull.field("feed", {
-//             type: "Feed",
-//             args: {
-//                 filter: stringArg(),
-//                 skip: intArg(),
-//                 take: intArg(),
-//                 orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }),
-//             },
-//             async resolve(parent, args, context) {
-//                 const where = args.filter
-//                     ? {
-//                           OR: [
-//                               { description: { contains: args.filter } },
-//                               { url: { contains: args.filter } },
-//                           ],
-//                       }
-//                     : {};
-//                 const flashcards = await context.prisma.flashcard.findMany({
-//                     where,
-//                     skip: args?.skip as number | undefined,
-//                     take: args?.take as number | undefined,
-//                     orderBy: args?.orderBy as
-//                         | Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput>
-//                         | undefined,
-//                 });
 
-//                 const count = await context.prisma.flashcard.count({ where });
-//                 const id = `main-feed:${JSON.stringify(args)}`;   
-                  
-//                 return {
-//                     flashcards,
-//                     count,
-//                     id,
-//                 };
-//             },
-//         });
-//     },
-// });
 
 export const FlashcardMutation = extendType({
     type: "Mutation",
@@ -130,5 +90,60 @@ export const FlashcardMutation = extendType({
                 return newFlashcard;
             },
         });
+
+
+      // get flashcard by id
+      t.field('getFlashcard', {
+        type: 'Flashcard',
+        args: {
+          id: nonNull(intArg()),
+        },
+        resolve(parent, args, context, info) {
+          return context.prisma.flashcard.findUnique({
+            where: {
+              id: args.id,
+            },
+          });
+        },
+      });
+  
+      // update flashcard by id
+      t.field('updateFlashcard', {
+        type: 'Flashcard',
+        args: {
+          id: nonNull(intArg()),
+          description: nonNull(stringArg()),
+          url: nonNull(stringArg()),
+        },
+        resolve(parent, args, context, info) {
+          return context.prisma.flashcard.update({
+            where: {
+              id: args.id,
+            },
+            data: {
+              description: args.description,
+              url: args.url,
+            },
+          });
+        },
+      });
+  
+      // delete flashcard by id
+      t.field('deleteFlashcard', {
+        type: 'Flashcard',
+        args: {
+          id: nonNull(intArg()),
+        },
+        resolve(parent, args, context, info) {
+          const del= context.prisma.flashcard.delete({
+            where: {
+              id: args.id,
+            },
+          });
+        return(del)
+        },
+      });
     },
 });
+
+

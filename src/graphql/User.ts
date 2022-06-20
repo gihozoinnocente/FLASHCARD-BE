@@ -14,13 +14,13 @@ export const User = objectType({
                     .flashcards();
             },
         });
-        t.nonNull.list.nonNull.field("comments", {
-            type: "Flashcard",
-            resolve(parent, args, context) {
-                return context.prisma.user
-                    .findUnique({ where: { id: parent.id } })
-                    .comments();
-            },
-        });
+        // t.nonNull.list.nonNull.field("comments", {
+        //     type: "Flashcard",
+        //     resolve(parent, args, context) {
+        //         return context.prisma.user
+        //             .findUnique({ where: { id: parent.id } })
+        //             .comments();
+        //     },
+        // });
     },
 });
