@@ -11,7 +11,7 @@ export const server = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 server.listen({ port }).then(({ url }) => {
     console.log(`🚀  Server is ready at ${url}`);
