@@ -20,7 +20,7 @@ export const Flashcard = objectType({
         t.nonNull.dateTime("createdAt");
         t.field("postedBy", {
             type: "User",
-            resolve(parent, args, context) {
+            resolve(parent:any, args:any, context:any) {
                 return context.prisma.flashcard
                     .findUnique({ where: { id: parent.id } })
                     .postedBy();
@@ -71,7 +71,7 @@ export const FlashcardMutation = extendType({
                 description: nonNull(stringArg()),
                 url: nonNull(stringArg()),
             },
-            resolve(parent, args, context) {
+            resolve(parent:any, args:any, context:any) {
                 const { description, url } = args;
                 const { userId } = context;
 
@@ -98,7 +98,7 @@ export const FlashcardMutation = extendType({
         args: {
           id: nonNull(intArg()),
         },
-        resolve(parent, args, context, info) {
+        resolve(parent:any, args:any, context:any) {
           return context.prisma.flashcard.findUnique({
             where: {
               id: args.id,
@@ -115,7 +115,7 @@ export const FlashcardMutation = extendType({
           description: nonNull(stringArg()),
           url: nonNull(stringArg()),
         },
-        resolve(parent, args, context, info) {
+        resolve(parent:any, args:any, context:any) {
           return context.prisma.flashcard.update({
             where: {
               id: args.id,
@@ -134,7 +134,7 @@ export const FlashcardMutation = extendType({
         args: {
           id: nonNull(intArg()),
         },
-        resolve(parent, args, context, info) {
+        resolve(parent:any, args:any, context:any) {
           const del= context.prisma.flashcard.delete({
             where: {
               id: args.id,
