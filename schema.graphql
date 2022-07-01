@@ -26,6 +26,12 @@ type Flashcard {
   url: String!
 }
 
+input LinkOrderByInput {
+  createdAt: Sort
+  description: Sort
+  url: Sort
+}
+
 type Mutation {
   deleteFlashcard(id: Int!): Flashcard
   login(email: String!, password: String!): AuthPayload!
@@ -37,6 +43,11 @@ type Mutation {
 type Query {
   getAllFlashcard: [Flashcard!]!
   getOneFlashcard(id: Int!): Flashcard!
+}
+
+enum Sort {
+  asc
+  desc
 }
 
 type User {

@@ -12,6 +12,22 @@ import {
 } from "nexus";
 import { Prisma } from "@prisma/client";
 
+
+
+export const LinkOrderByInput = inputObjectType({
+  name: "LinkOrderByInput",
+  definition(t) {
+      t.field("description", { type: Sort });
+      t.field("url", { type: Sort });
+      t.field("createdAt", { type: Sort });
+  },
+});
+
+export const Sort = enumType({
+  name: "Sort",
+  members: ["asc", "desc"],
+});
+
 export const Flashcard = objectType({
     name: "Flashcard",
     definition(t) {
